@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oil Spill Detection — SAR Segmentation Console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css?v=2.0">
+</head>
+<body>
+
+{% if demo_mode %}
+<div class="demo-banner">
+  DEMO MODE — no trained models found in <code>MODEL_DIR</code>. Showing placeholder scans until you export models from the notebook (Section 17).
+</div>
+{% endif %}
+
+<header class="topbar">
+  <div class="topbar__mark">
+    <span class="topbar__dot"></span> OSD-01
+  </div>
+  <nav class="topbar__nav">
+    <a href="#pipeline">Pipeline</a>
+    <a href="#certificate">Credential</a>
+    <a href="#demo">Live scan</a>
+    <a href="#compare">Performance</a>
+  </nav>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero__copy">
+      <p class="eyebrow">SAR SEGMENTATION · SENTINEL-1</p>
+      <h1>Find the slick before<br>the tide spreads it.</h1>
+      <p class="hero__sub">
+        A U-Net semantic segmentation network with a pre-trained ResNet34 encoder
+        backbone, trained on the Sentinel-1 SAR oil spill dataset.
+        Drop a satellite tile in below and watch the radar segment it.
+      </p>
+      <a href="#demo" class="btn btn--primary">Run a scan ↓</a>
+    </div>
+    <div class="hero__scope">
+      <div class="scope">
+        <div class="scope__sweep"></div>
+        <div class="scope__ring scope__ring--1"></div>
+        <div class="scope__ring scope__ring--2"></div>
+        <svg class="scope__slick" viewBox="0 0 200 200">
+          <path d="M40,110 C60,90 90,130 120,105 C140,90 160,100 165,120 C150,140 100,150 70,140 C50,132 35,125 40,110 Z" />
+        </svg>
+        <span class="scope__label">SCANNING…</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CREDENTIALS -->
+  <section class="certificate" id="certificate">
+    <p class="eyebrow eyebrow--center">OFFICIAL INTERNSHIP VERIFICATION</p>
+    <h2 class="section-title">Infosys Springboard AI Project Credential</h2>
+    
+    <div class="certificate__grid">
+      <!-- Left Column: Metadata Console -->
+      <div class="certificate__details">
+        <div class="cert-console">
+          <div class="cert-console__header">
+            <span class="cert-console__indicator"></span>
+            <span class="cert-console__title">CREDENTIAL DETECTOR</span>
+          </div>
+          <div class="cert-console__body">
+            <div class="cert-meta">
+              <span class="cert-meta__label">ISSUING ORG</span>
+              <span class="cert-meta__value">Infosys Springboard</span>
+            </div>
+            <div class="cert-meta">
+              <span class="cert-meta__label">PROJECT FOCUS</span>
+              <span class="cert-meta__value">AI Oil Spill Detection v2</span>
+            </div>
+            <div class="cert-meta">
+              <span class="cert-meta__label">IMAGING BAND</span>
+              <span class="cert-meta__value">Sentinel-1 SAR C-band</span>
+            </div>
+            <div class="cert-meta">
+              <span class="cert-meta__label">CLASSIFICATION</span>
+              <span class="cert-meta__value">Binary (Sea / Spill)</span>
+            </div>
+            <div class="cert-meta">
+              <span class="cert-meta__label">VERIFICATION</span>
+              <span class="cert-meta__value status-verified">SECURE // VERIFIED</span>
+            </div>
+          </div>
+        </div>
+        <div class="certificate__desc">
+          <p>
+            This dashboard serves as the operational console demonstrating the semantic segmentation model trained on the Krestenitis dataset. The internship validation is confirmed by the official credential issued by <strong>Infosys Springboard</strong>.
+          </p>
+          <p>
+            The certificate PDF is embedded on the right for verification. On devices where inline PDFs aren't natively scrollable, click the link below to open or download the high-resolution original credential document.
+          </p>
+          <a href="/certificate.pdf" target="_blank" class="btn btn--secondary">Open Full-Screen Certificate ↗</a>
+        </div>
+      </div>
+      
+      <!-- Right Column: Interactive Embed -->
+      <div class="certificate__preview">
+        <div class="cert-viewer">
+          <div class="cert-viewer__header">
+            <div class="cert-viewer__controls">
+              <span class="dot-win dot-win--red"></span>
+              <span class="dot-win dot-win--yellow"></span>
+              <span class="dot-win dot-win--green"></span>
+            </div>
+            <span class="cert-viewer__title">INFOSYS_SPRINGBOARD_CREDENTIAL.pdf</span>
+          </div>
+          <div class="cert-viewer__embed">
+            <img src="/static/certificate.png" alt="Infosys Springboard Internship Certificate" class="cert-viewer__img">
+          </div>
+        </div>
+    </div>
+  </section>
+
+  <!-- PIPELINE -->
+  <section class="pipeline" id="pipeline">
+    <p class="eyebrow eyebrow--center">HOW A SCENE MOVES THROUGH THE SYSTEM</p>
+    <div class="pipeline__steps">
+      <div class="step">
+        <span class="step__num">01</span>
+        <h3>Denoise</h3>
+        <p>An adaptive Lee filter removes SAR speckle without blurring slick boundaries.</p>
+      </div>
+      <div class="step">
+        <span class="step__num">02</span>
+        <h3>Segment</h3>
+        <p>Every pixel is classified as sea or oil spill.</p>
+      </div>
+      <div class="step">
+        <span class="step__num">03</span>
+        <h3>Classify confidence</h3>
+        <p>Per-class precision, recall, F1, and IoU are computed against the label.</p>
+      </div>
+      <div class="step">
+        <span class="step__num">04</span>
+        <h3>Verdict</h3>
+        <p>The segmentation mask is overlaid onto the original scene for responser triage.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIVE DEMO -->
+  <section class="demo" id="demo">
+    <p class="eyebrow eyebrow--center">LIVE SCAN</p>
+    <h2 class="section-title">Drop a SAR tile and read the readout.</h2>
+
+    <div class="demo__grid">
+      <div class="dropzone" id="dropzone">
+        <input type="file" id="fileInput" accept="image/*" hidden>
+        <div class="dropzone__inner" id="dropzoneInner">
+          <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.4">
+            <path d="M12 16V4M12 4l-4 4M12 4l4 4"/>
+            <path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/>
+          </svg>
+          <p>Drag a SAR image here, or click to choose one</p>
+          <p class="dropzone__hint">JPG / PNG · any size, resized to 256×256</p>
+        </div>
+        <div class="dropzone__sweep" id="dropzoneSweep"></div>
+      </div>
+
+      <div class="results" id="results">
+        <div class="model-toggle">
+          <span class="model-toggle__label">ACTIVE ARCHITECTURE</span>
+          <span class="model-badge">U-Net (ResNet34 Backbone)</span>
+        </div>
+
+        <div class="results__body" id="resultsBody">
+          <p class="results__placeholder">Run a scan to see the segmentation overlay and class breakdown here.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PERFORMANCE -->
+  <section class="compare" id="compare">
+    <p class="eyebrow eyebrow--center">MODEL METRICS & GENERALIZATION</p>
+    <h2 class="section-title">Validation performance on Sentinel-1 SAR split</h2>
+    <div id="compareChart" class="compare__chart"></div>
+    <p class="compare__verdict" id="compareVerdict">Loading performance metrics...</p>
+  </section>
+</main>
+
+<footer class="footer">
+  <p>Krestenitis et al. (2019) Sentinel-1 SAR oil spill dataset · trained in Google Colab · served locally.</p>
+</footer>
+
+<script src="/static/script.js?v=2.0"></script>
+</body>
+</html>
